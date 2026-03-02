@@ -9,8 +9,6 @@ import { default as debug_3 } from 'debug';
 import { Debugger as Debugger_2 } from 'debug';
 import { DocumentNode } from 'graphql';
 import { IncomingHttpHeaders } from 'http';
-import { IncomingMessage } from 'http';
-import { OutgoingMessage } from 'http';
 import { ParsedUrlQueryInput } from 'querystring';
 
 // @public
@@ -40,7 +38,8 @@ export { ClientError }
 
 declare namespace constants {
     export {
-        SITECORE_EDGE_URL_DEFAULT,
+        SITECORE_EDGE_PLATFORM_URL_DEFAULT,
+        SITECORE_EXPERIENCE_EDGE_URL_DEFAULT,
         CLAIMS,
         DEFAULT_SITECORE_AUTH_DOMAIN,
         DEFAULT_SITECORE_AUTH_AUDIENCE,
@@ -92,9 +91,6 @@ export class DefaultRetryStrategy implements RetryStrategy {
 
 // @public
 export const enableDebug: (namespaces: string) => void;
-
-// @public @deprecated
-export const enforceCors: (req: IncomingMessage, res: OutgoingMessage, allowedOrigins?: string[]) => boolean;
 
 // @public
 export type EnhancedOmit<T, K extends PropertyKey> = {
@@ -263,6 +259,15 @@ export interface NativeDataFetcherResponse<T> {
 export const normalizeUrl: (url: string) => string;
 
 // @public
+export function resolveEdgeUrl(edgeUrl?: string): string;
+
+// @public
+export function resolveEdgeUrlForStaticFiles(): string;
+
+// @public
+export function resolveExperienceEdgeUrl(): string;
+
+// @public
 export function resolveUrl(urlBase: string, params?: ParsedUrlQueryInput): string;
 
 // @public
@@ -274,8 +279,17 @@ export interface RetryStrategy {
 // @internal
 export function setCache(key: string, data: unknown): void;
 
+// @public
+export const SITECORE_EDGE_PLATFORM_HOSTNAME_ENV = "SITECORE_EDGE_PLATFORM_HOSTNAME";
+
 // @internal
-const SITECORE_EDGE_URL_DEFAULT = "https://edge-platform.sitecorecloud.io";
+const SITECORE_EDGE_PLATFORM_URL_DEFAULT = "https://edge-platform.sitecorecloud.io";
+
+// @public
+export const SITECORE_EXPERIENCE_EDGE_HOSTNAME_ENV = "SITECORE_EXPERIENCE_EDGE_HOSTNAME";
+
+// @internal
+const SITECORE_EXPERIENCE_EDGE_URL_DEFAULT = "https://edge.sitecorecloud.io";
 
 // @public
 export interface TenantArgs {
@@ -290,7 +304,7 @@ export interface TenantArgs {
 
 // Warnings were encountered during analysis:
 //
-// src/tools/index.ts:32:3 - (ae-forgotten-export) The symbol "authModule" needs to be exported by the entry point api-surface.d.ts
+// src/tools/index.ts:38:3 - (ae-forgotten-export) The symbol "authModule" needs to be exported by the entry point api-surface.d.ts
 
 // (No @packageDocumentation comment for this package)
 

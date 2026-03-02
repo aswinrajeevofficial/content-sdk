@@ -141,6 +141,7 @@ import { REDIRECT_TYPE_SERVER_TRANSFER } from '@sitecore-content-sdk/content/sit
 import { RedirectInfo } from '@sitecore-content-sdk/content/site';
 import { RedirectsService } from '@sitecore-content-sdk/content/site';
 import { RedirectsServiceConfig } from '@sitecore-content-sdk/content/site';
+import { renderEmptyPlaceholder } from '@sitecore-content-sdk/react';
 import { RenderingType } from '@sitecore-content-sdk/content/layout';
 import { resetEditorChromes } from '@sitecore-content-sdk/content/editing';
 import { resolveUrl } from '@sitecore-content-sdk/core/tools';
@@ -172,16 +173,26 @@ import { StaticPath } from '@sitecore-content-sdk/content';
 import { Text as Text_2 } from '@sitecore-content-sdk/react';
 import { TextField } from '@sitecore-content-sdk/react';
 import { useSitecore } from '@sitecore-content-sdk/react';
+import { withAppPlaceholder } from '@sitecore-content-sdk/react';
 import { withDatasourceCheck } from '@sitecore-content-sdk/react';
 import { withEditorChromes } from '@sitecore-content-sdk/react';
 import { withEmptyFieldEditingComponent } from '@sitecore-content-sdk/react';
 import { withFieldMetadata } from '@sitecore-content-sdk/react';
 import { withPlaceholder } from '@sitecore-content-sdk/react';
 import { withSitecore } from '@sitecore-content-sdk/react';
-import { WithSitecoreHocProps } from '@sitecore-content-sdk/react';
-import { WithSitecoreOptions } from '@sitecore-content-sdk/react';
-import { WithSitecoreProps } from '@sitecore-content-sdk/react';
 import { WriteImportMapArgs } from '@sitecore-content-sdk/content/tools';
+
+// @public
+export interface AllowedQueryParam {
+    name: string;
+    required?: boolean;
+}
+
+// @public
+export type AllowedQueryParams = Array<AllowedQueryParam | string> | AllowedQueryParamsResolver;
+
+// @public
+export type AllowedQueryParamsResolver = (queryParams: string[]) => Array<AllowedQueryParam | string>;
 
 export { AppPlaceholder }
 
@@ -329,6 +340,9 @@ export const defaultImportEntries: ImportEntry[];
 export { DefaultRetryStrategy }
 
 // @public
+export const defaultServerImportEntries: ImportEntry[];
+
+// @public
 export const defineCliConfig: (cliConfig: SitecoreCliConfigInput) => SitecoreCliConfig;
 
 // @public
@@ -382,6 +396,7 @@ export class EditingRenderMiddleware extends RenderMiddlewareBase {
 export type EditingRenderMiddlewareConfig = {
     resolvePageUrl?: (itemPath: string) => string;
     sitecoreInternalEditingHostUrl?: string;
+    allowedQueryParams?: AllowedQueryParams;
 };
 
 export { EditingScripts }
@@ -776,6 +791,8 @@ export { RedirectsService }
 
 export { RedirectsServiceConfig }
 
+export { renderEmptyPlaceholder }
+
 export { RenderingType }
 
 export { resetEditorChromes }
@@ -895,6 +912,8 @@ export function useComponentProps<ComponentData>(componentUid: string | undefine
 
 export { useSitecore }
 
+export { withAppPlaceholder }
+
 export { withDatasourceCheck }
 
 export { withEditorChromes }
@@ -907,15 +926,9 @@ export { withPlaceholder }
 
 export { withSitecore }
 
-export { WithSitecoreHocProps }
-
-export { WithSitecoreOptions }
-
-export { WithSitecoreProps }
-
 // @public
-export const writeImportMap: (args: WriteImportMapArgs) => ({ scConfig }?: {
-    scConfig?: SitecoreConfig_2;
+export const writeImportMap: (args: WriteImportMapArgs) => ({ scConfig }: {
+    scConfig: SitecoreConfig_2;
 }) => Promise<void>;
 
 
