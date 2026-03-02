@@ -15,7 +15,7 @@
     "test": "mocha --require ./test/setup.js \"./src/**/*.test.ts\" \"./src/**/*.test.tsx\" --exit",
     "prepublishOnly": "npm run build",
     "coverage": "nyc npm test",
-    "generate-docs": "npx typedoc --plugin typedoc-github-theme --readme none --out ../../ref-docs/react src/index.ts",
+    "generate-docs": "npx typedoc --plugin typedoc-plugin-extras --customTitle 'Home' --titleLink 'https://content-sdk-reference-docs.vercel.app'  --plugin typedoc-github-theme --readme none --out ../../ref-docs/react src/index.ts",
     "api-extractor": "npm run build && api-extractor run --local --verbose",
     "api-extractor:verify": "api-extractor run"
   },
