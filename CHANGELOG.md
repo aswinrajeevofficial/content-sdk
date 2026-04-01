@@ -10,16 +10,38 @@ Our versioning strategy is as follows:
 - Minor: non-breaking feature additions – no breaking changes (e.g. new features, improvements)
 - Major: new features + breaking changes (e.g. framework upgrades, major architectural changes, major features)
 
-## Unreleased
+## unreleased
 
 ### 🎉 New Features & Improvements
 
-* Add AGENTS.md for AI coding assistant guidance ([#368](https://github.com/Sitecore/content-sdk/pull/368))
+`[events]` `[nextjs]` Lightweight Tracking ([#414](https://github.com/Sitecore/content-sdk/pull/414))
+  - Introduced `BotTrackingProxy` Next.js proxy to capture bot tracking events.
+
+
+### 🐛 Bug Fixes
+
+* Preview mode shows unpublishable content ([#410](https://github.com/Sitecore/content-sdk/pull/410))([416](https://github.com/Sitecore/content-sdk/pull/416))
+* `[core] [content]` Fix GraphQL client factory ignoring custom `fetch` and related options ([#418](https://github.com/Sitecore/content-sdk/pull/418))
+
+## 2.0.1
+
+### ✨ Bug fixes
+
+- Fix wrong versions and samples appearing when running `create-content-sdk-app` command.
+  - `angular` sample no longer appears
+  - `nextjs` samples use correct content-sdk dependencies for analytics when scaffolded
+
+## 2.0.0
+
+### 🎉 New Features & Improvements
+
+* Add Skills.md with capability groupings for AI tools and developers ([#382](https://github.com/Sitecore/content-sdk/pull/382))
+  - Add `.agents/skills/` with Agent Skills (SKILL.md) per capability for universal AI tooling ([agentskills.io](https://agentskills.io)); each skill includes when-to-use, hard rules, and stop conditions
+  - `[create-content-sdk-app]` Add Skills.md and `.agents/skills/` to Next.js (Pages Router) and Next.js App Router templates so scaffolded apps include capability groupings and template-specific Agent Skills
+
+* Rework AI coding assistance guides around AGENTS.md ([#368](https://github.com/Sitecore/content-sdk/pull/368))([#390](https://github.com/Sitecore/content-sdk/pull/390))
 
 * `[nextjs]` `[create-content-sdk-app]` Enable Next.js 16 Cache Components and Turbopack File System Caching ([#334](https://github.com/Sitecore/content-sdk/pull/334))
-
-* `[core]` `[content]` `[nextjs]` Support custom Edge hostnames via `SITECORE_EDGE_PLATFORM_HOSTNAME` (Next.js: `NEXT_PUBLIC_SITECORE_EDGE_PLATFORM_HOSTNAME`) ([#359](https://github.com/Sitecore/content-sdk/pull/359))
-  - New `rewriteMediaUrls` option: when `true`, rewrites layout media URLs to the custom Edge hostname; when a function, applies a custom string transformer.
 
 * Search integration ([#295](https://github.com/Sitecore/content-sdk/pull/295))
   * `[search]` New `@sitecore-content-sdk/search` package providing search functionality
@@ -28,7 +50,6 @@ Our versioning strategy is as follows:
   * `[react]` Added React hooks for search functionality
     - `useSearch` hook for paginated search queries with automatic state management, request cancellation, request status tracking.
     - `useInfiniteSearch` hook for infinite scroll/search patterns with `loadMore` functionality, request cancellation, request status tracking.
-  * `[analytics]` `[core]` `[create-content-sdk-app]` `[nextjs]` `[react]` Reorganize Analytics packages ([#340](https://github.com/Sitecore/content-sdk/pull/340))([#341](https://github.com/Sitecore/content-sdk/pull/341))
 
 * `[nextjs]` `[Pages Router]` Adjust static path generation when multisite is disabled ([#345](https://github.com/Sitecore/content-sdk/pull/345))
 
@@ -36,14 +57,24 @@ Our versioning strategy is as follows:
 
 * `[nextjs]` `[Pages Router]` Add explicit `Content-Type: text/html; charset=utf-8` to the editing render route response for proper response handling ([#386](https://github.com/Sitecore/content-sdk/pull/386))
 
+* `[analytics-core]` `[events]` `[personalize]` `[core]` `[create-content-sdk-app]` `[nextjs]` `[react]` Introduce Analytics packages ([#340](https://github.com/Sitecore/content-sdk/pull/340))([#341](https://github.com/Sitecore/content-sdk/pull/341))([#357](https://github.com/Sitecore/content-sdk/pull/357))([#363](https://github.com/Sitecore/content-sdk/pull/363))
+  * Migrated the `core`,`events` and `personalize` packages from `CloudSDK` to `analytics-core`,`events` and `personalize` packages in `ContentSDK` 
+  * Reworked the initialization functionality introducing the new `initContentSdk` function
+
 ### 🛠 Breaking Changes
+
+* `[core]` `[content]` `[nextjs]` Support custom Edge hostnames via `SITECORE_EDGE_PLATFORM_HOSTNAME` (Next.js: `NEXT_PUBLIC_SITECORE_EDGE_PLATFORM_HOSTNAME`) ([#359](https://github.com/Sitecore/content-sdk/pull/359))
+  - New `rewriteMediaUrls` option: when `true`, rewrites layout media URLs to the custom Edge hostname; when a function, applies a custom string transformer.
+  - The old `SITECORE_EDGE_URL` environment variable is no longer used
 
 * Decouple `@sitecore-content-sdk/content` from `@sitecore-content-sdk/core` ([#351](https://github.com/Sitecore/content-sdk/pull/351)([#383](https://github.com/Sitecore/content-sdk/pull/383))):
   - See a detailed upgrade guide for migration instructions
+
 * `[nextjs]` `[create-content-sdk-app]` Upgrade to Next.js 16 ([#334](https://github.com/Sitecore/content-sdk/pull/334))([#343](https://github.com/Sitecore/content-sdk/pull/343))([#353](https://github.com/Sitecore/content-sdk/pull/353))
   - Next.js 16 is now required (minimum version `^16.0.0`)
   - `middleware.ts` renamed to `proxy.ts` with updated function signature
   - Removed deprecated `images.domains` usage (use `remotePatterns` instead)
+
 * `[nextjs]` Expand SXA redirects logic with support for isLanguagePreserved flag. This provides an option to preserve current locale when target redirect URL does not have a locale prefix ([#305](https://github.com/Sitecore/content-sdk/pull/305))
   - This changes the default redirects behavior out of the box.
     - Previously, `/da/source -> /target` rule would redirect to `/da/target` path when default locale is not `da`
@@ -57,7 +88,7 @@ Our versioning strategy is as follows:
   - `DesignLibrary` component now does not accept any props
   - `SitecoreProvider`'s `loadImportMap` is now required
 * [react] [nextjs] Major revamp of components in the react package ([#371](https://github.com/Sitecore/content-sdk/pull/371)):
-  - `Placeholder` and `AppPlaceholder` components' prop `modifyComponentProps` has been removed. `passThroughComponentProps` prop has been added to fill the role of passing props to child components
+  - `Placeholder` and `AppPlaceholder`, `passThroughComponentProps` prop has been added to fill make passing props to child components easier
   - `componentMap` and `loadImportMap` have been added to the context shared via `SitecoreProvider`
   - `useLoadImportMap`, `useComponentMap` HOCs have been removed. The Sitecore context data can be accessed via `useSitecore` hook.
   - `withSitecore`'s `updatePage` prop has been renamed to `setPage`. This HOC has also been marked deprecated, and will eventually be removed in favor of `useSitecore` hook.
@@ -70,6 +101,15 @@ Our versioning strategy is as follows:
 
 * `[core]` `[search]` `[analytics]` Pass Sitecore Context ID only in headers ([#336](https://github.com/Sitecore/content-sdk/pull/336))
 * `[core]` `[DesignLibrary]` Fix faux-extentions being stripped from 3rd party modules' names in import-map ([#358](https://github.com/Sitecore/content-sdk/pull/358))
+* `[react]` `[nextjs]` `[template/nextjs-app-router]` Fix not-found page forcing `[[...path]]` route to dynamic rendering; use cached page params to preserve SSG ([#399](https://github.com/Sitecore/content-sdk/pull/399))([#402](https://github.com/Sitecore/content-sdk/pull/402))
+* `[rect]` `[nextjs]` `[DesignStudio]` Component does not re-render during editing ([#400](https://github.com/Sitecore/content-sdk/pull/400))
+* `[nextjs]` `[DesignLibrary]` In variant generation mode prevent additional re-render for Server Components ([#403](https://github.com/Sitecore/content-sdk/pull/403))
+
+### 1.5.1
+   
+### 🐛 Bug Fixes
+
+* `[content]` `[react]` `[nextjs]` Improve import map generation and refactor Design Library error handling ([#387](https://github.com/Sitecore/content-sdk/pull/387))
 
 ### 1.5.0
 
